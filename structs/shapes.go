@@ -2,6 +2,11 @@ package structs
 
 import "math"
 
+type Shape interface {
+	Area() float64
+	Perimeter() float64
+}
+
 type Rectangle struct {
 	Width  float64
 	Height float64
@@ -9,6 +14,10 @@ type Rectangle struct {
 
 func (r Rectangle) Area() float64 {
 	return r.Width * r.Height
+}
+
+func (r Rectangle) Perimeter() float64 {
+	return 2 * (r.Width + r.Height)
 }
 
 type Circle struct {
@@ -19,23 +28,21 @@ func (c Circle) Area() float64 {
 	return math.Pi * math.Pow(c.Radius, 2)
 }
 
+func (c Circle) Perimeter() float64 {
+	return 2 * math.Pi * c.Radius
+}
+
 type Triangle struct {
-	Base   float64
-	Height float64
+	A float64
+	B float64
+	C float64
 }
 
 func (t Triangle) Area() float64 {
-	return (t.Base * t.Height) * 1 / 2
+	s := t.Perimeter() / 2
+	return math.Sqrt(s * (s - t.A) * (s - t.B) * (s - t.C))
 }
 
-func Perimeter(rectangle Rectangle) float64 {
-	return 2 * (rectangle.Width + rectangle.Height)
-}
-
-func Area(rectangle Rectangle) float64 {
-	return rectangle.Width * rectangle.Height
-}
-
-type Shape interface {
-	Area() float64
+func (t Triangle) Perimeter() float64 {
+	return t.A + t.B + t.C
 }
